@@ -19,7 +19,7 @@ app = FastAPI(
 # CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify your frontend URL
+    allow_origins=["*"],  # Allow all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +33,8 @@ async def root():
     return {"message": "Design System Extractor API", "status": "running"}
 
 
+# Fix: Add health check at BOTH /health and /api/health to match frontend expectations
 @app.get("/health")
+@app.get("/api/health")
 async def health_check():
     return {"status": "healthy"}
