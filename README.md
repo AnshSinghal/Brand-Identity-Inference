@@ -63,7 +63,36 @@ npm run dev
 
 Open http://localhost:5173
 
-## � API Endpoints
+## 🚢 Deployment Options
+
+Since this project requires Playwright (headless browser), Docker-based deployment is recommended.
+
+### Option 1: Render (Free Tier Support)
+
+1. **Frontend**: Deploy `frontend/` to **Vercel** (standard React deploy).
+2. **Backend**:
+   - Create a **Web Service** on [Render](https://render.com).
+   - Connect your GitHub repo.
+   - Select **Docker** as the Runtime.
+   - Set Root Directory to `backend`.
+   - Add Environment Variable: `OPENROUTER_API_KEY`.
+   - Use the internal URL provided by Render in your Frontend env vars.
+
+### Option 2: Fly.io (Robust Free Allowance)
+
+1. Install `flyctl`.
+2. `cd backend`
+3. Run `fly launch` (it will detect the Dockerfile).
+4. `fly secrets set OPENROUTER_API_KEY=your_key`
+5. `fly deploy`
+
+### Option 3: Hugging Face Spaces (Great for Demos)
+
+1. Create a new Space (Docker SDK).
+2. Upload the contents of `backend/` to the root of the Space.
+3. Add `OPENROUTER_API_KEY` in settings.
+
+## 🔧 API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -71,103 +100,3 @@ Open http://localhost:5173
 | `/api/history` | GET | Get scan history |
 | `/api/history/{id}` | GET | Get specific scan |
 | `/api/history/{id}` | DELETE | Delete scan |
-
-### Example Request
-
-```bash
-curl -X POST http://localhost:8000/api/extract \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://stripe.com"}'
-```
-
-### Example Response
-
-```json
-{
-  "url": "https://stripe.com",
-  "logo": {
-    "found": true,
-    "type": "inline_svg",
-    "svg": "<svg>...</svg>",
-    "confidence": 0.85,
-    "source": "brand_anchor_svg"
-  },
-  "colors": {
-    "primary": "#635bff",
-    "secondary": "#0a2540",
-    "background": "#ffffff"
-  },
-  "typography": {
-    "heading_font": "sohne",
-    "body_font": "sohne"
-  },
-  "vibe": {
-    "tone": "Professional",
-    "audience": "Developers",
-    "vibe": "Modern"
-  }
-}
-```
-
-## � Project Structure
-
-```
-Brand-Identity-Inference/
-├── backend/
-│   ├── main.py              # FastAPI app
-│   ├── app/
-│   │   ├── api/routes.py    # API endpoints
-│   │   ├── models.py        # Pydantic models
-│   │   ├── storage.py       # JSON storage
-│   │   └── extractors/
-│   │       ├── fetcher.py   # Playwright async fetcher
-│   │       ├── logo.py      # Logo extraction
-│   │       ├── colors.py    # Color extraction
-│   │       ├── typography.py # Font extraction
-│   │       ├── llm.py       # Vibe analysis
-│   │       └── llm_verify.py # LLM verification
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── pages/
-│   │   └── components/
-│   ├── package.json
-│   └── vite.config.js
-├── render.yaml              # Render deployment
-└── vercel.json              # Vercel deployment
-```
-
-## 🔬 Logo Extraction Pipeline
-
-1. **Brand Anchor Detection** - Find `<a>` elements in header linking to homepage
-2. **SVG Dominance Scoring** - Score SVGs by path complexity, aspect ratio, size
-3. **Wordmark vs Icon** - Prefer wide SVGs (aspect > 1.5) over square icons
-4. **Fingerprint Deduplication** - Skip repeated SVGs (UI icons)
-5. **currentColor Resolution** - Resolve CSS colors for SVG logos
-6. **Vision Fallback** - OpenCV-based screenshot analysis
-
-## 🚢 Deployment
-
-### Frontend → Vercel
-```bash
-cd frontend
-vercel --prod
-```
-
-### Backend → Railway
-```bash
-# Set OPENROUTER_API_KEY in Railway dashboard
-railway up
-```
-
-## 📄 License
-
-MIT
-
-## 🙏 Credits
-
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Playwright](https://playwright.dev/)
-- [OpenRouter](https://openrouter.ai/)
-- [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/)
