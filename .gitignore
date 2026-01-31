@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Data
+backend/data/
+data/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+coverage/
+.coverage
+
+# Python
+*.egg
+*.whl
+uv.lock
+.python-version
+
+# Ignore old test files
+page.html
+colour_detector.py
+colourextr.py
+fetchHTML.py
+css/
+
+# Gemini/Agent artifacts
+.gemini/

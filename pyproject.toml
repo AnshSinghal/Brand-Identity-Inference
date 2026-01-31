@@ -1,0 +1,24 @@
+[project]
+name = "linked-assi-antig"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp==3.9.1",
+    "beautifulsoup4==4.12.3",
+    "cssutils==2.9.0",
+    "fastapi==0.109.0",
+    "google-genai>=1.46.0",
+    "google-generativeai==0.3.2",
+    "groq>=1.0.0",
+    "lxml==5.1.0",
+    "numpy>=2.4.1",
+    "opencv-python-headless>=4.13.0.90",
+    "pydantic==2.5.3",
+    "python-multipart==0.0.6",
+    "requests==2.31.0",
+    "scikit-learn>=1.8.0",
+    "uvicorn[standard]==0.27.0",
+    "webcolors==1.13",
+]
