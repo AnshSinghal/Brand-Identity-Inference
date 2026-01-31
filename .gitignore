@@ -41,7 +41,6 @@ coverage/
 # Python
 *.egg
 *.whl
-uv.lock
 .python-version
 
 # Ignore old test files

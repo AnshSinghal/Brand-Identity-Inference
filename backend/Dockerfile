@@ -1,6 +1,9 @@
 # Use official Python image
 FROM python:3.11-slim
 
+# Install uv for fast package management
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
 # Set working directory
 WORKDIR /app
 
@@ -28,12 +31,14 @@ RUN apt-get update && apt-get install -y \
     libx11-xcb1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for caching
+# Copy requirements/lock files first for caching
 COPY requirements.txt .
+# If you have pyproject.toml/uv.lock in backend, copy them too:
+# COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies and Playwright browsers
-# We still use --with-deps as a safety net, but the manual list covers most
-RUN pip install --no-cache-dir -r requirements.txt && \
+# Install Python dependencies using uv (much faster)
+# --system installs into system python, compatible with docker
+RUN uv pip install --system --no-cache -r requirements.txt && \
     playwright install chromium && \
     rm -rf /root/.cache/ms-playwright/download/firefox* && \
     rm -rf /root/.cache/ms-playwright/download/webkit*
