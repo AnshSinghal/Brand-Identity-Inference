@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Palette, History, Sparkles, ChevronRight } from 'lucide-react'
 import HomePage from './pages/HomePage'
 import HistoryPage from './pages/HistoryPage'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 function Header() {
     const location = useLocation()
@@ -38,6 +40,21 @@ function Header() {
 }
 
 function App() {
+    // Warm up backend on initial load
+    useEffect(() => {
+        const warmUp = async () => {
+            try {
+                // Determine API URL (fallback to relative if proxied)
+                const url = API_URL + '/api/health'
+                await fetch(url)
+                console.log('Backend warmed up')
+            } catch (e) {
+                // Silent fail
+            }
+        }
+        warmUp()
+    }, [])
+
     return (
         <BrowserRouter>
             <Header />
