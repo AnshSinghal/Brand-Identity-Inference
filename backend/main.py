@@ -17,10 +17,12 @@ app = FastAPI(
 )
 
 # CORS for frontend
+# We disable allow_credentials=True because we use allow_origins=["*"]
+# This is safer for public APIs and prevents browser blocking.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # Changed to False to allow wildcard origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -33,7 +35,7 @@ async def root():
     return {"message": "Design System Extractor API", "status": "running"}
 
 
-# Fix: Add health check at BOTH /health and /api/health to match frontend expectations
+# Health checks at both paths
 @app.get("/health")
 @app.get("/api/health")
 async def health_check():
