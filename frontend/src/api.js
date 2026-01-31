@@ -1,6 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/api`
-    : (import.meta.env.PROD ? 'https://brand-identity-inference.onrender.com/api' : '/api')
+const API_BASE = 'https://brand-identity-inference.onrender.com/api'
 
 export async function extractDesignSystem(url) {
     const response = await fetch(`${API_BASE}/extract`, {

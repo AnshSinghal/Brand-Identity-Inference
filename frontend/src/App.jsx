@@ -4,7 +4,7 @@ import { Palette, History, Sparkles, ChevronRight } from 'lucide-react'
 import HomePage from './pages/HomePage'
 import HistoryPage from './pages/HistoryPage'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_URL = 'https://brand-identity-inference.onrender.com'
 
 function Header() {
     const location = useLocation()
